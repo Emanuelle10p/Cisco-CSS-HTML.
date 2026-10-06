@@ -1,0 +1,116 @@
+/* =====================================================================
+   MiniAcad · css/responsivo.css
+   Diseño responsivo. Se carga DESPUÉS de estilos.css.
+
+   Puntos de quiebre:
+   · 768 px → tabletas y celulares grandes
+   · 480 px → celulares pequeños
+   ===================================================================== */
+
+
+/* ---------------------------------------------------------------------
+   TABLETA Y CELULAR (hasta 768 px)
+   - Aparece el botón «Menú» y la navegación se oculta hasta abrirla.
+   - Las lecciones pasan de dos columnas a una.
+   La clase .js la agrega script.js; si JavaScript falla, el menú
+   queda visible y el sitio sigue funcionando.
+   --------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  h1 { font-size: 2.25rem; }
+  h2 { font-size: 1.75rem; }
+
+  .menu-boton {
+    display: inline-block;
+  }
+
+  .js .nav-principal {
+    display: none;
+    flex-basis: 100%;
+  }
+
+  .js .nav-principal.abierto {
+    display: block;
+  }
+
+  .nav-principal ul {
+    flex-direction: column;
+  }
+
+  .nav-principal > ul > li > a {
+    padding: 0.75rem 1rem;
+  }
+
+  .portada {
+    padding-block: 2.5rem;
+  }
+
+  .seccion {
+    padding-block: 2rem;
+  }
+
+  .leccion__cuerpo {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .leccion__pie {
+    text-align: center;
+  }
+
+  .pie__contenido {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+
+/* ---------------------------------------------------------------------
+   CELULAR PEQUEÑO (hasta 480 px)
+   - Márgenes más angostos, botones a todo el ancho (fáciles de tocar).
+   --------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.3rem; }
+
+  .contenedor {
+    padding-inline: 0.75rem;
+  }
+
+  .logo {
+    font-size: 1.6rem;
+  }
+
+  .portada p {
+    font-size: 1.25rem;
+  }
+
+  .catalogo {
+    gap: 1.5rem;
+  }
+
+  .leccion,
+  .quiz {
+    padding: 1rem;
+  }
+
+  .boton,
+  .tarjeta .boton {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  .indice ol {
+    flex-direction: column;
+  }
+
+  .indice a[href^="#"] {
+    display: block;
+  }
+
+  .pie ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

@@ -1,0 +1,847 @@
+/* =====================================================================
+   MiniAcad · css/estilos.css
+   Hoja de estilos principal (escrita a mano, sin frameworks).
+
+   ÍNDICE
+   1.  Variables (paleta, tipografías, medidas)  → requisito 2
+   2.  Reinicio y base (box-sizing, body)         → requisito 4
+   3.  Tipografía                                 → requisito 10
+   4.  Accesibilidad (saltar, foco, solo lectores)
+   5.  Encabezado y navegación (Flexbox)          → requisito 5
+   6.  Portada de la página de inicio
+   7.  Catálogo de cursos (CSS Grid)              → requisito 6
+   8.  Botones (hover, focus, active, transición) → requisitos 8 y 9
+   9.  Páginas de curso y lecciones
+   10. Acordeón
+   11. Mini quiz
+   12. Pie de página
+   13. Tabla de IA.html
+   14. Movimiento reducido                        → accesibilidad 5.5
+
+   Las reglas de @media (768 px y 480 px) están en css/responsivo.css
+   ===================================================================== */
+
+
+/* ---------------------------------------------------------------------
+   1. VARIABLES
+   Toda la paleta y las fuentes viven aquí. Si algo cambia de color,
+   se cambia en un solo lugar.
+   --------------------------------------------------------------------- */
+:root {
+  /* Paleta base (relaciones de contraste en evidencias/tabla-contraste.md) */
+  --color-fondo: #F4F9FF;        /* fondo de la página: azul muy claro   */
+  --color-superficie: #FFFFFF;   /* tarjetas y lecciones                 */
+  --color-texto: #1B2A4A;        /* texto principal: azul marino         */
+  --color-texto-suave: #40507A;  /* texto secundario                     */
+  --color-marca: #26358F;        /* encabezado y pie                     */
+  --color-acento: #FFC93C;       /* amarillo: botones y portada          */
+  --color-acento-fuerte: #FFB300;/* amarillo al pasar el mouse           */
+  --color-enlace: #1F44B8;       /* enlaces dentro del texto             */
+  --color-foco: #6A1B9A;         /* contorno del foco del teclado        */
+
+  /* Un color amable por curso */
+  --color-sumar: #FFE08A;
+  --color-dividir: #BFE8C9;
+  --color-zapatos: #FFC8B5;
+  --color-internet: #C8DBFF;
+
+  /* Mensajes del quiz (siempre llevan también texto) */
+  --color-ok: #14632D;
+  --color-ok-fondo: #E0F5E6;
+  --color-mal: #8A1C1C;
+  --color-mal-fondo: #FDE6E6;
+
+  /* Tipografías: una para títulos y otra para texto */
+  --fuente-titulo: "Baloo 2", "Trebuchet MS", "Comic Sans MS", sans-serif;
+  --fuente-texto: "Nunito", Verdana, Arial, sans-serif;
+
+  /* Medidas reutilizables (en rem para que escalen al 200 %) */
+  --radio: 1rem;
+  --borde: 0.2rem solid var(--color-texto);
+  --sombra: 0.35rem 0.35rem 0 var(--color-texto);
+  --ancho-max: 70rem;
+}
+
+
+/* ---------------------------------------------------------------------
+   2. REINICIO Y BASE
+   border-box: el padding y el borde quedan dentro del ancho declarado.
+   --------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;               /* respeta el tamaño elegido por la persona */
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente-texto);
+  font-size: 1.25rem;            /* 20 px: mayor al mínimo de 18 px */
+  line-height: 1.7;
+  color: var(--color-texto);
+  background: var(--color-fondo);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Selector de id: zona principal de contenido */
+#contenido {
+  padding-bottom: 2rem;
+}
+
+/* Contenedor centrado y con márgenes laterales */
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+
+/* ---------------------------------------------------------------------
+   3. TIPOGRAFÍA
+   Jerarquía: h1 > h2 > h3 > texto. Títulos con una fuente, texto con otra.
+   --------------------------------------------------------------------- */
+h1,
+h2,
+h3 {                              /* selector agrupado */
+  margin: 0 0 0.75rem;
+  font-family: var(--fuente-titulo);
+  line-height: 1.2;
+  color: var(--color-texto);
+}
+
+h1 { font-size: 2.75rem; font-weight: 800; }
+h2 { font-size: 2rem;    font-weight: 800; }
+h3 { font-size: 1.5rem;  font-weight: 700; }
+
+p {
+  margin: 0 0 1rem;
+}
+
+a {
+  color: var(--color-enlace);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--color-marca);
+  text-decoration-thickness: 0.2rem;
+}
+
+
+/* ---------------------------------------------------------------------
+   4. ACCESIBILIDAD
+   --------------------------------------------------------------------- */
+
+/* Enlace «Saltar al contenido»: escondido hasta recibir el foco */
+.saltar {
+  position: absolute;
+  left: 1rem;
+  top: -6rem;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-acento);
+  color: var(--color-texto);
+  font-weight: 800;
+  border: var(--borde);
+  border-radius: var(--radio);
+  transition: top 0.2s ease;
+}
+
+.saltar:focus {
+  top: 1rem;
+}
+
+/* Texto solo para lectores de pantalla (no se ve, sí se lee) */
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Foco visible del teclado: nunca se quita sin reemplazo */
+:focus-visible {
+  outline: 0.25rem solid var(--color-foco);
+  outline-offset: 0.25rem;
+}
+
+/* En zonas oscuras el contorno cambia a amarillo para que se vea */
+.encabezado :focus-visible,
+.pie :focus-visible {
+  outline-color: var(--color-acento);
+}
+
+
+/* ---------------------------------------------------------------------
+   5. ENCABEZADO Y NAVEGACIÓN (FLEXBOX)
+   Flexbox: el logo queda a la izquierda y el menú a la derecha, y se
+   acomodan solos cuando falta espacio (flex-wrap).
+   --------------------------------------------------------------------- */
+.encabezado {
+  background: var(--color-marca);
+  color: #FFFFFF;
+  border-bottom: 0.5rem solid var(--color-acento);
+}
+
+.encabezado__barra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-block: 1rem;
+}
+
+.logo {
+  font-family: var(--fuente-titulo);
+  font-size: 2rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.logo:hover {
+  color: var(--color-acento);
+}
+
+/* Barra de navegación en Flexbox */
+.nav-principal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Selector de hijo directo: solo los enlaces del primer nivel */
+.nav-principal > ul > li > a {
+  display: block;
+  padding: 0.5rem 1rem;
+  border: 0.15rem solid transparent;
+  border-radius: 999px;
+  color: #FFFFFF;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-principal a:hover,
+.nav-principal a:focus {
+  background: var(--color-acento);
+  color: var(--color-texto);
+}
+
+.nav-principal a:active {
+  background: #FFFFFF;
+  color: var(--color-marca);
+}
+
+/* Página actual: borde y subrayado (no depende solo del color) */
+.nav-principal a[aria-current="page"] {
+  border-color: #FFFFFF;
+  text-decoration: underline;
+  text-decoration-thickness: 0.2rem;
+}
+
+/* Botón del menú: solo aparece en pantallas pequeñas (ver responsivo.css) */
+.menu-boton {
+  display: none;
+  padding: 0.5rem 1.25rem;
+  font-family: var(--fuente-titulo);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-texto);
+  background: var(--color-acento);
+  border: 0.15rem solid #FFFFFF;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.menu-boton:hover {
+  background: var(--color-acento-fuerte);
+}
+
+
+/* ---------------------------------------------------------------------
+   6. PORTADA DE LA PÁGINA DE INICIO
+   --------------------------------------------------------------------- */
+.portada {
+  padding-block: 3.5rem;
+  background: var(--color-acento);
+  border-bottom: var(--borde);
+}
+
+.portada p {
+  max-width: 38rem;
+  font-size: 1.5rem;
+}
+
+.seccion {
+  padding-block: 3rem;
+}
+
+.seccion > .contenedor > p {
+  max-width: 40rem;
+}
+
+
+/* ---------------------------------------------------------------------
+   7. CATÁLOGO DE CURSOS (CSS GRID)
+   repeat(auto-fit, minmax(16rem, 1fr)): crea tantas columnas de al menos
+   16 rem como quepan y las estira para llenar la fila.
+   --------------------------------------------------------------------- */
+.catalogo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-superficie);
+  border: var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* La tarjeta se eleva al pasar el mouse o al recibir el foco por dentro */
+.tarjeta:hover,
+.tarjeta:focus-within {
+  transform: translate(-0.2rem, -0.2rem);
+  box-shadow: 0.55rem 0.55rem 0 var(--color-texto);
+}
+
+.tarjeta img {
+  display: block;
+  width: 100%;
+  border-bottom: var(--borde);
+}
+
+.tarjeta__cuerpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.5rem;
+  padding: 1.25rem;
+}
+
+.tarjeta h3 {                      /* selector descendiente */
+  margin: 0;
+}
+
+.tarjeta__meta {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.tarjeta .boton {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* nth-child: cada tarjeta recibe el color de su curso */
+.catalogo > .tarjeta:nth-child(1) .tarjeta__cuerpo { background: var(--color-sumar); }
+.catalogo > .tarjeta:nth-child(2) .tarjeta__cuerpo { background: var(--color-dividir); }
+.catalogo > .tarjeta:nth-child(3) .tarjeta__cuerpo { background: var(--color-zapatos); }
+.catalogo > .tarjeta:nth-child(4) .tarjeta__cuerpo { background: var(--color-internet); }
+
+
+/* ---------------------------------------------------------------------
+   8. BOTONES
+   Transición suave + :hover, :focus y :active
+   --------------------------------------------------------------------- */
+.boton {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--fuente-titulo);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-texto);
+  background: var(--color-acento);
+  border: var(--borde);
+  border-radius: 999px;
+  box-shadow: 0.2rem 0.2rem 0 var(--color-texto);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.boton:hover {
+  color: var(--color-texto);
+  background: var(--color-acento-fuerte);
+  transform: translate(-0.1rem, -0.1rem);
+  box-shadow: 0.3rem 0.3rem 0 var(--color-texto);
+}
+
+.boton:focus {
+  background: var(--color-acento-fuerte);
+}
+
+.boton:active {
+  transform: translate(0.2rem, 0.2rem);
+  box-shadow: 0 0 0 var(--color-texto);
+}
+
+/* Variantes */
+.boton--claro {
+  background: #FFFFFF;
+}
+
+.boton--oscuro {
+  color: #FFFFFF;
+  background: var(--color-texto);
+}
+
+.boton--oscuro:hover,
+.boton--oscuro:focus {
+  color: #FFFFFF;
+  background: var(--color-marca);
+}
+
+
+/* ---------------------------------------------------------------------
+   9. PÁGINAS DE CURSO Y LECCIONES
+   Cada curso define su color con una variable: --color-curso
+   --------------------------------------------------------------------- */
+.curso            { --color-curso: var(--color-sumar); }
+.curso--sumar     { --color-curso: var(--color-sumar); }
+.curso--dividir   { --color-curso: var(--color-dividir); }
+.curso--zapatos   { --color-curso: var(--color-zapatos); }
+.curso--internet  { --color-curso: var(--color-internet); }
+
+.curso-portada {
+  padding-block: 2.5rem;
+  background: var(--color-curso);
+  border-bottom: var(--borde);
+}
+
+.curso-portada .intro {
+  max-width: 40rem;
+  font-size: 1.375rem;
+}
+
+/* Índice de lecciones */
+.indice h2 {
+  margin-top: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.indice ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.indice a[href^="#"] {            /* selector de atributo */
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  color: var(--color-texto);
+  font-weight: 800;
+  text-decoration: none;
+  background: #FFFFFF;
+  border: var(--borde);
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+}
+
+.indice a:hover,
+.indice a:focus {
+  background: var(--color-acento);
+}
+
+/* Una lección */
+.leccion {
+  margin-block: 2.5rem;
+  padding: 1.5rem;
+  background: var(--color-superficie);
+  border: var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.leccion > h2 {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.25rem 1rem;
+  background: var(--color-curso);
+  border: var(--borde);
+  border-radius: 999px;
+}
+
+/* Dos columnas: medios a la izquierda, texto a la derecha */
+.leccion__cuerpo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.video {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000000;
+  border: var(--borde);
+  border-radius: 0.75rem;
+}
+
+.video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.ilustracion {
+  margin: 1.5rem 0 0;
+}
+
+.ilustracion img {
+  display: block;
+  border: var(--borde);
+  border-radius: 0.75rem;
+}
+
+.lectura {
+  font-size: 1.375rem;
+  line-height: 1.8;
+}
+
+.pasos {
+  margin: 0 0 1rem;
+  padding-left: 1.75rem;
+}
+
+.pasos li {
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.pasos li:nth-child(odd) {
+  background: var(--color-fondo);
+}
+
+.leccion__pie {
+  margin: 1.5rem 0 0;
+  text-align: right;
+}
+
+/* Cierre del curso: siguiente curso y volver */
+.siguiente-curso {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-block: 2rem;
+}
+
+
+/* ---------------------------------------------------------------------
+   10. ACORDEÓN (se maneja con aria-expanded desde js/script.js)
+   --------------------------------------------------------------------- */
+.acordeon-titulo {
+  margin: 1rem 0 0;
+  font-size: 1.25rem;
+}
+
+.acordeon-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font: inherit;
+  font-weight: 800;
+  text-align: left;
+  color: var(--color-texto);
+  background: var(--color-fondo);
+  border: var(--borde);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.acordeon-btn:hover,
+.acordeon-btn:focus {
+  background: var(--color-acento);
+}
+
+.acordeon-btn:active {
+  background: var(--color-acento-fuerte);
+}
+
+/* El signo +/− es decorativo: el estado lo anuncia aria-expanded */
+.acordeon-btn::after {
+  content: "+";
+  content: "+" / "";
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.acordeon-btn[aria-expanded="true"] {
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.acordeon-btn[aria-expanded="true"]::after {
+  content: "−";
+  content: "−" / "";
+}
+
+.acordeon-panel {
+  padding: 1rem 1.25rem 0.25rem;
+  background: #FFFFFF;
+  border: var(--borde);
+  border-top: 0;
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.acordeon-panel[hidden] {
+  display: none;
+}
+
+
+/* ---------------------------------------------------------------------
+   11. MINI QUIZ
+   fieldset + legend, radios con label, resultado en una zona aria-live.
+   --------------------------------------------------------------------- */
+.quiz {
+  margin-block: 2.5rem;
+  padding: 1.5rem;
+  background: var(--color-curso);
+  border: var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.quiz fieldset {
+  margin: 0 0 1.5rem;
+  padding: 1rem 1.25rem 1.25rem;
+  background: #FFFFFF;
+  border: var(--borde);
+  border-radius: 0.75rem;
+}
+
+.quiz legend {
+  padding-inline: 0.5rem;
+  font-family: var(--fuente-titulo);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.opcion {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-block: 0.25rem;
+}
+
+.quiz input[type="radio"] {
+  flex-shrink: 0;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  accent-color: var(--color-marca);
+}
+
+.opcion label {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 0.15rem solid transparent;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.opcion label:hover {
+  background: var(--color-fondo);
+  border-color: var(--color-texto);
+}
+
+.opcion input:checked + label {
+  font-weight: 800;
+  background: var(--color-fondo);
+  border-color: var(--color-texto);
+}
+
+.quiz__botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Zona de resultado: siempre existe en la página (aria-live) */
+.resultado {
+  margin-top: 1.5rem;
+}
+
+.resultado:not(:empty) {
+  padding: 1rem 1.25rem;
+  background: #FFFFFF;
+  border: 0.2rem dashed var(--color-texto);
+  border-radius: 0.75rem;
+}
+
+.resultado__titulo {
+  margin: 0 0 0.75rem;
+  font-family: var(--fuente-titulo);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.resultado__lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resultado__item {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-weight: 700;
+  border-radius: 0.5rem;
+}
+
+.resultado__item--ok {
+  color: var(--color-ok);
+  background: var(--color-ok-fondo);
+}
+
+.resultado__item--mal {
+  color: var(--color-mal);
+  background: var(--color-mal-fondo);
+}
+
+.resultado__item--pendiente {
+  background: var(--color-fondo);
+}
+
+
+/* ---------------------------------------------------------------------
+   12. PIE DE PÁGINA
+   --------------------------------------------------------------------- */
+.pie {
+  padding-block: 2rem;
+  color: #FFFFFF;
+  background: var(--color-marca);
+  border-top: 0.5rem solid var(--color-acento);
+}
+
+.pie__contenido {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pie p {
+  margin: 0;
+}
+
+.pie ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pie a {
+  color: #FFFFFF;
+  font-weight: 800;
+}
+
+.pie a:hover {
+  color: var(--color-acento);
+}
+
+
+/* ---------------------------------------------------------------------
+   13. TABLA DE IA.html
+   --------------------------------------------------------------------- */
+.tabla-contenedor {
+  overflow-x: auto;                /* la tabla se desplaza dentro de su caja */
+  margin-block: 1.5rem 2.5rem;
+  background: #FFFFFF;
+  border: var(--borde);
+  border-radius: 0.75rem;
+}
+
+.tabla-ia {
+  width: 100%;
+  min-width: 48rem;
+  border-collapse: collapse;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.tabla-ia caption {
+  padding: 0.75rem 1rem;
+  font-family: var(--fuente-titulo);
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-align: left;
+  background: var(--color-acento);
+  border-bottom: var(--borde);
+}
+
+.tabla-ia th,
+.tabla-ia td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 0.1rem solid var(--color-texto-suave);
+}
+
+.tabla-ia thead th {
+  background: var(--color-internet);
+}
+
+.tabla-ia tbody tr:nth-child(even) {
+  background: var(--color-fondo);
+}
+
+
+/* ---------------------------------------------------------------------
+   14. MOVIMIENTO REDUCIDO
+   Si la persona pidió menos movimiento en su sistema, se apagan las
+   transiciones y las animaciones.
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

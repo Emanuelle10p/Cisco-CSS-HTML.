@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MiniAcad: cursos cortos con videos, dibujos y lecturas fáciles para niñas y niños menores de 10 años.">
+  <title>Cursos para niños | MiniAcad</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=Nunito:wght@400;700;800&amp;display=swap">
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="css/responsivo.css">
+</head>
+<body class="inicio">
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="encabezado">
+    <div class="contenedor encabezado__barra">
+      <a class="logo" href="index.html"><span aria-hidden="true">★ </span>MiniAcad</a>
+      <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu-principal">Menú</button>
+      <nav class="nav-principal" id="menu-principal" aria-label="Principal">
+        <ul>
+          <li><a href="index.html" aria-current="page">Inicio</a></li>
+          <li><a href="cursos/sumar.html">Sumar</a></li>
+          <li><a href="cursos/dividir.html">Dividir</a></li>
+          <li><a href="cursos/zapatos.html">Zapatos</a></li>
+          <li><a href="cursos/internet-seguro.html">Internet seguro</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="portada" aria-labelledby="titulo-portada">
+      <div class="contenedor">
+        <h1 id="titulo-portada">Aprende jugando con MiniAcad</h1>
+        <p>Cursos cortos con videos, dibujos y lecturas fáciles. Para niñas y niños menores de 10 años.</p>
+        <a class="boton boton--oscuro ir-leccion" href="#titulo-catalogo">Ver los cursos</a>
+      </div>
+    </section>
+
+    <section class="seccion" aria-labelledby="titulo-catalogo">
+      <div class="contenedor">
+        <h2 id="titulo-catalogo" tabindex="-1">Elige tu curso</h2>
+        <p>Cada curso tiene tres lecciones y un mini quiz al final.</p>
+        <div class="catalogo">
+          <article class="tarjeta">
+            <img src="img/curso-sumar.svg" alt="Cinco manzanas rojas debajo de la operación 2 + 3 = 5." width="400" height="260">
+            <div class="tarjeta__cuerpo">
+              <h3>Aprendo a sumar</h3>
+              <p>Junta manzanas y estrellas para aprender a sumar hasta 10.</p>
+              <p class="tarjeta__meta">3 lecciones</p>
+              <a class="boton" href="cursos/sumar.html">Empezar<span class="solo-lectores"> el curso Aprendo a sumar</span></a>
+            </div>
+          </article>
+
+          <article class="tarjeta">
+            <img src="img/curso-dividir.svg" alt="Dos platos con cuatro galletas cada uno, debajo de la operación 8 ÷ 2 = 4." width="400" height="260">
+            <div class="tarjeta__cuerpo">
+              <h3>Aprendo a dividir</h3>
+              <p>Reparte galletas y pelotas en partes iguales.</p>
+              <p class="tarjeta__meta">3 lecciones</p>
+              <a class="boton" href="cursos/dividir.html">Empezar<span class="solo-lectores"> el curso Aprendo a dividir</span></a>
+            </div>
+          </article>
+
+          <article class="tarjeta">
+            <img src="img/curso-zapatos.svg" alt="Un zapato naranja con cordón blanco." width="400" height="260">
+            <div class="tarjeta__cuerpo">
+              <h3>Aprendo a amarrarme los zapatos</h3>
+              <p>Aprende el nudo con las orejas de conejo.</p>
+              <p class="tarjeta__meta">3 lecciones</p>
+              <a class="boton" href="cursos/zapatos.html">Empezar<span class="solo-lectores"> el curso Aprendo a amarrarme los zapatos</span></a>
+            </div>
+          </article>
+
+          <article class="tarjeta">
+            <img src="img/curso-internet.svg" alt="Una computadora con un escudo verde y una marca de visto bueno." width="400" height="260">
+            <div class="tarjeta__cuerpo">
+              <h3>Me cuido en internet</h3>
+              <p>Tres reglas fáciles para cuidarte cuando usas internet.</p>
+              <p class="tarjeta__meta">3 lecciones</p>
+              <a class="boton" href="cursos/internet-seguro.html">Empezar<span class="solo-lectores"> el curso Me cuido en internet</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion" aria-labelledby="titulo-preguntas">
+      <div class="contenedor">
+        <h2 id="titulo-preguntas">Preguntas de mamás, papás y maestros</h2>
+          <h3 class="acordeon-titulo">
+              <button class="acordeon-btn" type="button" aria-expanded="false" aria-controls="faq-1">¿Necesito registrarme?</button>
+            </h3>
+            <div id="faq-1" class="acordeon-panel" hidden>
+              <p>No. MiniAcad no pide registro ni inicio de sesión.</p>
+            </div>
+          <h3 class="acordeon-titulo">
+              <button class="acordeon-btn" type="button" aria-expanded="false" aria-controls="faq-2">¿Se guarda el avance de mi hija o hijo?</button>
+            </h3>
+            <div id="faq-2" class="acordeon-panel" hidden>
+              <p>No. El sitio no guarda datos. Cada visita empieza desde cero.</p>
+            </div>
+          <h3 class="acordeon-titulo">
+              <button class="acordeon-btn" type="button" aria-expanded="false" aria-controls="faq-3">¿Se puede usar con lector de pantalla o solo con teclado?</button>
+            </h3>
+            <div id="faq-3" class="acordeon-panel" hidden>
+              <p>Sí. El sitio está hecho para usarse con NVDA, JAWS, VoiceOver y TalkBack, y también solo con el teclado. Use la tecla Tab para moverse y Enter para abrir enlaces y botones.</p>
+            </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor pie__contenido">
+      <p>MiniAcad: cursos cortos para niñas y niños menores de 10 años.</p>
+      <nav aria-label="Pie de página">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="IA.html">Cómo usé la inteligencia artificial</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
